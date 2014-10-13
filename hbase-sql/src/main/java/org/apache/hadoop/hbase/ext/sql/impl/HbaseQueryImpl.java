@@ -33,14 +33,14 @@ public class HbaseQueryImpl implements HbaseQuery {
     private Configuration conf = HBaseConfiguration.create();
 
     @Override
-    public List<DynaBean> select(String sql) throws SQLSyntaxErrorException, IOException {
-        return select(sql, null, null);
+    public List<DynaBean> select(String sql,String colfam) throws SQLSyntaxErrorException, IOException {
+        return select(sql, colfam,null, null);
     }
 
     @Override
-    public List<DynaBean> select(String sql, String startRow,
-            String stopRow) throws IOException, SQLSyntaxErrorException {
-        SelectSqlVisitor sqlVisitor = parseSql(sql);
+    public List<DynaBean> select(String sql,String colfam,String startRow,String stopRow) throws IOException, SQLSyntaxErrorException {
+            
+        SelectSqlVisitor sqlVisitor = parseSql(sql,colfam);
 
         HTable table = new HTable(this.conf, sqlVisitor.getTableName());
         Scan scan = sqlVisitor.getScan(startRow, stopRow);
@@ -54,12 +54,12 @@ public class HbaseQueryImpl implements HbaseQuery {
         return rows;
     }
 
-    private SelectSqlVisitor parseSql(String sql) throws SQLSyntaxErrorException {
+    private SelectSqlVisitor parseSql(String sql,String colfam) throws SQLSyntaxErrorException {
         CCJSqlParserManager parserManager = new CCJSqlParserManager();
         SelectSqlVisitor sqlFinder = null;
         try {
             Select select = (Select) parserManager.parse(new StringReader(sql));
-            sqlFinder = new SelectSqlVisitor(select);
+            sqlFinder = new SelectSqlVisitor(select,colfam);
         } catch (Exception e) {
             throw new SQLSyntaxErrorException(sql, e);
         }

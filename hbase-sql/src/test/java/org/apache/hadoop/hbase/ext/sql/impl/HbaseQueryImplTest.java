@@ -15,32 +15,36 @@ public class HbaseQueryImplTest {
 
     @Test
     public void testSelectAsterisk() throws SQLSyntaxErrorException, IOException {
-        String sql = "SELECT * FROM report1";
+        String sql = "SELECT * FROM b_month";
         HbaseQuery hbaseQuery = new HbaseQueryImpl();
-        List<DynaBean> rows = hbaseQuery.select(sql);
-        printBean(rows);
-        Assert.assertEquals(13, rows.size());
+        List<DynaBean> rows = hbaseQuery.select(sql,"diqu");
+        printBean(rows,"全表");
+        Assert.assertEquals(43, rows.size());
     }
 
     @Test
     public void testWhere() throws SQLSyntaxErrorException, IOException {
-        String sql = "SELECT * FROM report1 WHERE TIME_ID = 201206 and AREA_ID = 730";
+        String sql = "SELECT * FROM b_month WHERE month = 3 and year=2014 ";
         HbaseQuery hbaseQuery = new HbaseQueryImpl();
-        List<DynaBean> rows = hbaseQuery.select(sql);
-        printBean(rows);
-        Assert.assertEquals(1, rows.size());
+          List<DynaBean> rows = hbaseQuery.select(sql,"diqu");
+          printBean(rows,"条件");
+        Assert.assertEquals(22, rows.size());
     }
 
     @Test
     public void testLimit() throws SQLSyntaxErrorException, IOException {
-        String sql = "SELECT TIME_ID, AREA_NAME FROM report1 limit 3 offset 2";
+        String sql = "SELECT * FROM b_month limit 3 offset 2";
         HbaseQuery hbaseQuery = new HbaseQueryImpl();
-        List<DynaBean> rows = hbaseQuery.select(sql);
-        printBean(rows);
+        List<DynaBean> rows = hbaseQuery.select(sql,"diqu");
+        printBean(rows,"Limit");
         Assert.assertEquals(3, rows.size());
     }
 
-    private static void printBean(List<DynaBean> beans) {
+    private static void printBean(List<DynaBean> beans,String bz) {
+    	if (beans.size()==0) {
+    		System.out.println("------------"+bz+" 无记录---------------");
+    		return;
+    	}
         DynaProperty[] properties = beans.get(0).getDynaClass()
                 .getDynaProperties();
         StringBuilder str = new StringBuilder();
@@ -55,8 +59,9 @@ public class HbaseQueryImplTest {
             }
             str.append("\n");
         }
+        System.out.println("------------"+bz+"---------------");
         System.out.print(str);
         System.out.println("----------------------------------");
-        System.out.println(beans.size());
+        System.out.println("记录数:"+beans.size());
     }
 }

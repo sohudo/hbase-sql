@@ -79,8 +79,10 @@ public class SelectSqlVisitor implements SelectVisitor, FromItemVisitor,
     private Scan scan = new Scan();
     // TODO 目前将全部的where条件都用作and逻辑
     private FilterList filters = new FilterList();
+    private String colfam;
 
-    public SelectSqlVisitor(Select select) {
+    public SelectSqlVisitor(Select select,String acolfam) {
+    	 this.colfam=acolfam;
         // 访问select语句
         select.getSelectBody().accept(this);
     }
@@ -119,7 +121,7 @@ public class SelectSqlVisitor implements SelectVisitor, FromItemVisitor,
                 break;
             }
             // TODO 写死的cf, 没有处理字段别名等等情况
-            this.scan.addColumn(Bytes.toBytes("cf"),
+            this.scan.addColumn(Bytes.toBytes(colfam),
                     Bytes.toBytes(item.toString()));
         }
     }
@@ -166,7 +168,7 @@ public class SelectSqlVisitor implements SelectVisitor, FromItemVisitor,
 
         // TODO 写死的cf
         SingleColumnValueFilter filter = new SingleColumnValueFilter(
-                Bytes.toBytes("cf"), Bytes.toBytes(column),
+                Bytes.toBytes(colfam), Bytes.toBytes(column),
                 CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(value)));
         this.filters.addFilter(filter);
     }

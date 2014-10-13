@@ -17,6 +17,6 @@ import org.apache.commons.beanutils.DynaBean;
  * @version HbaseQuery.java 2013-1-7 上午10:50:45
  */
 public interface HbaseQuery {
-    public List<DynaBean> select(String sql) throws SQLSyntaxErrorException, IOException;
-    public List<DynaBean> select(String sql, String startRow, String stopRow) throws SQLSyntaxErrorException, IOException;
+    public List<DynaBean> select(String sql,String colfam) throws SQLSyntaxErrorException, IOException;
+    public List<DynaBean> select(String sql,String colfam,String startRow, String stopRow) throws SQLSyntaxErrorException, IOException;
 }

@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.hadoop.hbase</groupId>
     <artifactId>hbase-sql</artifactId>
-    <version>0.1</version>
+    <version>0.11</version>
 
     <name>hbase-sql</name>
     <description>通过sql来查询hbase上的数据</description>
@@ -16,12 +16,12 @@
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase</artifactId>
-            <version>0.94.3</version>
+            <version>0.94.21</version>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-core</artifactId>
-            <version>1.0.4</version>
+            <version>1.2.1</version>
         </dependency>
         <dependency>
             <groupId>commons-dbutils</groupId>

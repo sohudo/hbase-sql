@@ -32,7 +32,7 @@
         <value>file:///DIRECTORY/hbase</value>
         下面的hbase.cluster.distributed和hbase.zookeeper.quorum都去掉
         -->
-        <value>hdfs://192.168.31.126:9000/hbase</value>
+        <value>hdfs://jifeng01:9000/hbase</value>
     </property>
     <property>
         <name>hbase.cluster.distributed</name>
@@ -40,6 +40,6 @@
     </property>
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>192.168.31.126</value>
+        <value>jifeng01</value>
     </property>
 </configuration>
