@@ -2,7 +2,8 @@ hbase-sql
 =========
 
 通过sql来查询hbase上的数据
-
+--------
+##简介
 由于https://code.google.com/p/hbase-sql/上的项目不能下载，我导入到github，并在基础上进行修改
 
 如何简化从hbase中查询数据
@@ -20,40 +21,40 @@ sql语句 --sql解析器--> sql语法节点(对象) -> scan -> hbase -> ResultSc
 select a, b from table1 where a = 1 and b = 2
 我们通过sql解析器可以得到sql语句的各个部分, 再调用hbase api中相应的语句来达到相同的效果
 
-// 要查询的表
-HTable table = new HTable(conf, "table1");
-// 要查询的字段
-Scan scan = new Scan();
-scan.addColumn(Bytes.toBytes("cf"), Bytes.toBytes("a"));
-scan.addColumn(Bytes.toBytes("cf"), Bytes.toBytes("b"));
-// where条件
-// a = 1
-SingleColumnValueFilter a = new SingleColumnValueFilter(Bytes.toBytes("cf"),
-        Bytes.toBytes("a"), CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(1)));
-filterList.addFilter(filter);
-// b = 2
-SingleColumnValueFilter b = new SingleColumnValueFilter(Bytes.toBytes("cf"),
-        Bytes.toBytes("b"), CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(2)));
-// and
-FilterList filterList = new FilterList(Operator.MUST_PASS_ALL, a, b);
-scan.setFilter(filterList);
-目前支持的功能
+// 要查询的表<br>
+HTable table = new HTable(conf, "table1");<br>
+// 要查询的字段<br>
+Scan scan = new Scan();<br>
+scan.addColumn(Bytes.toBytes("cf"), Bytes.toBytes("a"));<br>
+scan.addColumn(Bytes.toBytes("cf"), Bytes.toBytes("b"));<br>
+// where条件<br>
+// a = 1<br>
+SingleColumnValueFilter a = new SingleColumnValueFilter(Bytes.toBytes("cf"),<br>
+        Bytes.toBytes("a"), CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(1)));<br>
+filterList.addFilter(filter);<br>
+// b = 2<br>
+SingleColumnValueFilter b = new SingleColumnValueFilter(Bytes.toBytes("cf"),<br>
+        Bytes.toBytes("b"), CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(2)));<br>
+// and<br>
+FilterList filterList = new FilterList(Operator.MUST_PASS_ALL, a, b);<br>
+scan.setFilter(filterList);<br>
+##目前支持的功能
 具体细节请参考单元测试
 
-1. 从oracle数据库中导入表数据到hbase
+###1. 从oracle数据库中导入表数据到hbase<br>
 
-OracleDataLoader.loadTable("TABLE_NAME", new String[] { "PK_COLUMN_NAME" });
-2. 通过SQL语句来查询hbase中的表数据
+OracleDataLoader.loadTable("TABLE_NAME", new String[] { "PK_COLUMN_NAME" });<br>
+###2. 通过SQL语句来查询hbase中的表数据<br>
 
-List<DynaBean> rows = HbaseQuery.select("SQL");
-目前支持的SQL语句
+List<DynaBean> rows = HbaseQuery.select("SQL");<br>
+目前支持的SQL语句<br>
 
-SELECT * FROM report1                       /* 查询所有数据 */
-SELECT A, B FROM report1                    /* 只查询某些列 */
-SELECT * FROM report1 WHERE A = 1 and B = 2 /* 过滤条件只能是AND逻辑, 而且是等于关系 */
-SELECT * FROM report1 limit 3 offset 2      /* 分页 */
-如何使用
-1. 在Download中下载最新版的hbase-sql.jar, 将其放在lib中.
+SELECT * FROM report1                       /* 查询所有数据 */<br>
+SELECT A, B FROM report1                    /* 只查询某些列 */<br>
+SELECT * FROM report1 WHERE A = 1 and B = 2 /* 过滤条件只能是AND逻辑, 而且是等于关系 */<br>
+SELECT * FROM report1 limit 3 offset 2      /* 分页 */<br>
+##如何使用
+###1. 在Download中下载最新版的hbase-sql.jar, 将其放在lib中.
 
 注意项目lib的依赖
 commons-beanutils-core-1.8.0.jar
@@ -70,11 +71,11 @@ protobuf-java-2.4.0a.jar
 slf4j-api-1.4.3.jar
 slf4j-log4j12-1.4.3.jar
 zookeeper-3.4.3.jar
-2. 在项目的src中配置好hbase-site.xml, 否则无法连接到hbase来体验hbase-sql的功能
+###2. 在项目的src中配置好hbase-site.xml, 否则无法连接到hbase来体验hbase-sql的功能
 
-3. 测试
+###3. 测试
 
 List<DynaBean> rows = new HbaseQueryImpl().select("select * from report1");
 System.out.println(rows.size());
-TODO
+##TODO
 支持更复杂的SQL查询语句
