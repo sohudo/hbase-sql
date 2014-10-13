@@ -4,7 +4,8 @@ hbase-sql
 通过sql来查询hbase上的数据
 --------
 ##简介
-由于https://code.google.com/p/hbase-sql/上的项目不能下载，我导入到github，并在基础上进行修改
+由于https://code.google.com/p/hbase-sql/
+上的项目不能下载，我导入到github，并在基础上进行修改
 
 ###如何简化从hbase中查询数据
 为了兼容以前从关系型数据库中查询数据的接口, 让hbase可以通过sql语句来查询其中的数据.
@@ -12,6 +13,7 @@ hbase-sql
 hive有这样的功能, 他支持通过类似sql语句的语法来操作hbase中的数据, 但是速度太慢了, 因为hive本身就不是用来查询数据的, hive是数据仓库, 做数据分析的, 不适合我们的应用场景.
 
 hbase本身提供的api中, 只有scan是用来查询数据的, 因此我们需要将sql语句转成scan 参考<<利用hbase的coprocessor机制来在hbase上增加sql解析引擎–(一)原因&架构>>发现是可行的
+http://blog.hummingbird-one.com/?p=10196
 
 ###总体架构为
 
@@ -54,7 +56,7 @@ SELECT A, B FROM b_month                   /* 只查询某些列 */<br>
 SELECT * FROM b_month WHERE A = 1 and B = 2 /* 过滤条件只能是AND逻辑, 而且是等于关系 */<br>
 SELECT * FROM b_month limit 3 offset 2      /* 分页 */<br>
 ##如何使用
-###1. 在Download中下载最新版的hbase-sql.jar, 将其放在lib中.
+###1. 下载最新版的hbase-sql.jar, 将其放在lib中.
 
 注意项目lib的依赖<br>
 commons-beanutils-core-1.8.0.jar<br>
@@ -77,7 +79,7 @@ zookeeper-3.4.6.jar<br>
 
 ###3. 测试
 
-List<DynaBean> rows = new HbaseQueryImpl().select("select * from report1");
-System.out.println(rows.size());
+List<DynaBean> rows = new HbaseQueryImpl().select("select * from report1");<br>
+System.out.println(rows.size());<br>
 ##TODO
 支持更复杂的SQL查询语句
